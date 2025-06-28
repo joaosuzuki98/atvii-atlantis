@@ -2,6 +2,7 @@ import Processo from "../abstracoes/processo"
 import MenuEdicaoTelefone from "../menus/menuEdicaoTelefone"
 import Cliente from "../modelos/cliente"
 import Telefone from "../modelos/telefone"
+import CadastroTelefoneTitular from "./cadastrarTelefoneTitular"
 
 export default class EditarTelefoneCliente extends Processo {
     private cliente: Cliente
@@ -41,15 +42,21 @@ export default class EditarTelefoneCliente extends Processo {
                     if (novoDdd && novoNumero) {
                         telefoneExistente['ddd'] = novoDdd
                         telefoneExistente['numero'] = novoNumero
+                        this.cliente.Dependentes.forEach(dep => {
+                            dep.setTelefone(this.cliente.Telefones.map(t => t.clonar() as Telefone))
+                        })
                         console.log('Telefone atualizado.')
                     }
                     break
 
                 case 2:
-                    const dddNovo = this.entrada.receberTexto('DDD do novo telefone:')
-                    const numeroNovo = this.entrada.receberTexto('Número do novo telefone:')
-                    telefones.push(new Telefone(dddNovo, numeroNovo))
-                    this.cliente.setTelefone(telefones)
+                    this.processo = new CadastroTelefoneTitular(this.cliente)
+                    this.processo.processar()
+
+                    this.cliente.Dependentes.forEach(dep => {
+                        dep.setTelefone(this.cliente.Telefones.map(t => t.clonar() as Telefone))
+                    })
+
                     console.log('Telefone adicionado.')
                     break
 
@@ -60,6 +67,9 @@ export default class EditarTelefoneCliente extends Processo {
                     if (indice !== -1) {
                         telefones.splice(indice, 1)
                         this.cliente.setTelefone(telefones)
+                        this.cliente.Dependentes.forEach(dep => {
+                            dep.setTelefone(this.cliente.Telefones.map(t => t.clonar() as Telefone))
+                        })
                         console.log('Telefone removido.')
                     } else {
                         console.log('Telefone não encontrado.')

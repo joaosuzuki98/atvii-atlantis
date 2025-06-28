@@ -36,4 +36,8 @@ export default class Cliente {
     public set Nome(nome: string) { this.nome = nome }
     public set NomeSocial(nomeSocial: string) { this.nomeSocial = nomeSocial }
     public set DataNascimento(dataNascimento: Date) { this.dataNascimento = dataNascimento }
+
+    public set Dependentes(dependentes: Cliente[]) {
+        this.dependentes = dependentes
+    }
 }

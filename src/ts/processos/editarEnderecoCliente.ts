@@ -33,6 +33,10 @@ export default class EditarEnderecoCliente extends Processo {
 
         this.cliente.Endereco = novoEndereco
 
+        this.cliente.Dependentes.forEach(dep => {
+            dep.Endereco = novoEndereco.clonar() as Endereco
+        })
+
         console.log('Endereço atualizado com sucesso!')
     }
 }
