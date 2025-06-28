@@ -2,6 +2,8 @@ import Processo from "../abstracoes/processo";
 import Armazem from "../dominio/armazem";
 import verificaCliente from "../utils/verificaCliente";
 import EditarDocumentoCliente from "./editarDocumentosCliente";
+import EditarEnderecoCliente from "./editarEnderecoCliente";
+import EditarTelefoneCliente from "./editarTelefoneCliente";
 
 export default class EditarClienteTitular extends Processo {
     processar(): void {
@@ -28,6 +30,18 @@ export default class EditarClienteTitular extends Processo {
         if (editarDoc === 's') {
             let editarDocumento = new EditarDocumentoCliente(titular)
             editarDocumento.processar()
+        }
+
+        let editarEndereco = this.entrada.receberTexto('Deseja editar o endereço? (s/n)').toLowerCase()
+        if (editarEndereco === 's') {
+            let editarEnderecoCliente = new EditarEnderecoCliente(titular)
+            editarEnderecoCliente.processar()
+        }
+
+        let editarTelefones = this.entrada.receberTexto('Deseja editar os telefones? (s/n)').toLowerCase()
+        if (editarTelefones === 's') {
+            let editarTelefoneCliente = new EditarTelefoneCliente(titular)
+            editarTelefoneCliente.processar()
         }
 
         console.log('Finalizando o cadastro do cliente...')

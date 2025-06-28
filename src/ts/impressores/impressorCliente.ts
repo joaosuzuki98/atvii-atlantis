@@ -1,7 +1,9 @@
 import Impressor from "../interfaces/impressor";
 import Cliente from "../modelos/cliente";
+import ImpressorDependentes from "./impressorDependentes";
 import ImpressorDocumentos from "./impressorDocumentos";
 import ImpressorEndereco from "./impressorEndereco";
+import ImpressorTelefones from "./impressorTelefones";
 
 export default class ImpressaorCliente implements Impressor {
     private cliente: Cliente
@@ -24,18 +26,11 @@ export default class ImpressaorCliente implements Impressor {
         this.impressor = new ImpressorDocumentos(this.cliente.Documentos)
         impressao = impressao + `\n${this.impressor.imprimir()}`
 
-        if (this.cliente.Dependentes.length > 0) {
-            impressao += `\nDependentes:\n`
-            this.cliente.Dependentes.forEach((dependente, index) => {
-                impressao += `  -> Dependente ${index + 1}:\n`
-                impressao += `     - Nome: ${dependente.Nome}\n`
-                impressao += `     - Nome social: ${dependente.NomeSocial}\n`
-                impressao += `     - Data de nascimento: ${dependente.DataNascimento.toLocaleDateString()}\n`
-                impressao += `     - Data de cadastro: ${dependente.DataCadastro.toLocaleDateString()}\n`
-            })
-        } else {
-            impressao += `\nDependentes: Nenhum`
-        }
+        this.impressor = new ImpressorDependentes(this.cliente.Dependentes)
+        impressao = impressao + `\n${this.impressor.imprimir()}`
+
+        this.impressor = new ImpressorTelefones(this.cliente.Telefones)
+        impressao = impressao + `\n${this.impressor.imprimir()}`
 
         impressao = impressao + `\n****************************`
         return impressao
