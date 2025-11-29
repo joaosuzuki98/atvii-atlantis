@@ -20,7 +20,7 @@ export default class EditarClienteTitular extends Processo {
         console.log('Deixe em branco caso não queira mudar')
         let nome = this.entrada.receberTexto('Qual o novo nome do cliente?')
         let nomeSocial = this.entrada.receberTexto('Qual o novo nome social do cliente?')
-        let dataNascimento = this.entrada.receberData('Qual a nova data de nascimento do cliente?')
+        let dataNascimento = this.entrada.receberData('Qual a nova data de nascimento do cliente (se não quiser mudar, coloque a mesma data)?')
 
         if (nome) titular.Nome = nome
         if (nomeSocial) titular.NomeSocial = nomeSocial
